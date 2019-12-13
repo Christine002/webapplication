@@ -5,7 +5,7 @@ from flask import request, json, Response, Blueprint
 from ..models.UserModel import UserModel, UserSchema
 from ..shared.Authentication import Auth
 
-user_api = Blueprint('users', __name__)
+user_api = Blueprint('user_api', __name__)
 user_schema = UserSchema()
 
 @user_api.route('/', methods=['POST'])
@@ -33,6 +33,13 @@ def create():
   token = Auth.generate_token(ser_data.get('id'))
 
   return custom_response({'jwt_token': token}, 201)
+
+@user_api.route('/', methods=['GET'])
+@Auth.auth_required
+def get_all():
+  users = UserModel.get_all_users()
+  ser_users = user_schema.dump(users, many=True).data
+  return custom_response(ser_users, 200)
 
 @user_api.route('/login', methods=['POST'])
 def login():
