@@ -3,7 +3,9 @@ import jwt
 import os
 import datetime
 from flask import json, Response, request, g
+from functools import wraps
 from ..models.UserModel import UserModel
+
 
 class Auth():
   """
@@ -48,7 +50,8 @@ class Auth():
     except jwt.InvalidTokenError:
       re['error'] = {'message': 'Invalid token, please try again with a new token'}
       return re
-     # decorator
+
+  # decorator
   @staticmethod
   def auth_required(func):
     """

@@ -1,12 +1,7 @@
-# src/models/BlogpostModel.py
+# src/models/Blogpost.py
 from . import db
 import datetime
-# src/models/BlogpostModel.py
-#####################
-# existing code remains #
-########################
 from marshmallow import fields, Schema
-
 
 class BlogpostModel(db.Model):
   """
@@ -18,17 +13,14 @@ class BlogpostModel(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   title = db.Column(db.String(128), nullable=False)
   contents = db.Column(db.Text, nullable=False)
+  owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
   created_at = db.Column(db.DateTime)
   modified_at = db.Column(db.DateTime)
-  contents = db.Column(db.Text, nullable=False)
-  owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False) # add this new line
 
   def __init__(self, data):
     self.title = data.get('title')
     self.contents = data.get('contents')
-    self.created_at = datetime.datetime.utcnow()
-    self.modified_at = datetime.datetime.utcnow()
-    self.owner_id = data.get('owner_id) # add this new line
+    self.owner_id = data.get('owner_id')
     self.created_at = datetime.datetime.utcnow()
     self.modified_at = datetime.datetime.utcnow()
 
@@ -44,12 +36,20 @@ class BlogpostModel(db.Model):
 
   def delete(self):
     db.session.delete(self)
-    de.session.commit()
- 
+    db.session.commit()
+  
+  @staticmethod
+  def get_all_blogposts():
+    return BlogpostModel.query.all()
+  
+  @staticmethod
+  def get_one_blogpost(id):
+    return BlogpostModel.query.get(id)
+
   def __repr__(self):
     return '<id {}>'.format(self.id)
-  
-  class BlogpostSchema(Schema):
+
+class BlogpostSchema(Schema):
   """
   Blogpost Schema
   """
@@ -59,6 +59,3 @@ class BlogpostModel(db.Model):
   owner_id = fields.Int(required=True)
   created_at = fields.DateTime(dump_only=True)
   modified_at = fields.DateTime(dump_only=True)
-
-  
-  
