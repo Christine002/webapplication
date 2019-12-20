@@ -12,7 +12,7 @@ class Development(object):
     DEBUG = True
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS=False
-    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+    JWT_SECRET_KEY = hhgaghhgsdhdhdd
     SQLALCHEMY_DATABASE_URI = postgres://christinehome:password@localhost:5432/webapplication
 
 class Production(object):
