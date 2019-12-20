@@ -12,8 +12,8 @@ class Development(object):
     DEBUG = True
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS=False
-    JWT_SECRET_KEY = hhgaghhgsdhdhdd
-    SQLALCHEMY_DATABASE_URI = postgres://christinehome:password@localhost:5432/webapplication
+    JWT_SECRET_KEY = 'hhgaghhgsdhdhdd'
+    SQLALCHEMY_DATABASE_URI = 'postgres://christinehome:password@localhost:5432/webapplication'
 
 class Production(object):
     """
